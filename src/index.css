@@ -1,0 +1,50 @@
+@import 'tailwindcss';
+
+/*
+ * Тёмная тема через класс: `dark:`-стили применяются, когда у <html> есть класс .dark
+ * (его ставит useTheme и маленький скрипт в index.html).
+ */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+html {
+  color-scheme: light;
+}
+html.dark {
+  /* Нативные элементы (календарь в <input type="date">, скроллбары) тоже станут тёмными */
+  color-scheme: dark;
+}
+
+/* Видимый фокус для клавиатуры во всём приложении */
+:focus-visible {
+  outline: 2px solid var(--color-indigo-500);
+  outline-offset: 2px;
+}
+
+/* Повторяющиеся стили вынесены в классы, чтобы не копировать длинные списки утилит */
+@layer components {
+  .card {
+    @apply rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900;
+  }
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-indigo-500 dark:hover:bg-indigo-400 dark:text-slate-950;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800;
+  }
+  .field {
+    @apply block w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100;
+  }
+  .label {
+    @apply mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300;
+  }
+}
+
+/* Рамка вокруг графика Recharts при клике не нужна — фокус у него не интерактивный */
+.recharts-wrapper:focus,
+.recharts-surface:focus {
+  outline: none;
+}
